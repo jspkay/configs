@@ -1,0 +1,9 @@
+max-visible=5
+anchor=top-center
+default-timeout=5000
+
+[urgency=low]
+background-color=#444444
+
+[urgency=high]
+background-color=#B34534
