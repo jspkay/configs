@@ -104,6 +104,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~> %{$reset_color%} $vcs_info_msg_0_"
+export PATH="$PATH:$HOME/.local/bin"
 
 # zsh related
 source $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -115,7 +116,7 @@ bindkey "^[[1;5D" backward-word # jump word with CTRL+LEFT and RIGHT
 bindkey "^[[1;5C" forward-word
 
 # commands
-alias ls='ls --color=auto'
+alias ls='ls --color=auto -oh'
 
 # Langauges and environemnts
 . "$HOME/.cargo/env" # cargo (rust)

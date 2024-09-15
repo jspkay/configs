@@ -1,9 +1,16 @@
 max-visible=5
-anchor=top-center
+anchor=top-right
 default-timeout=5000
 
+background-color=#24273a
+text-color=#cad3f5
+border-size=2
+border-color=#b7bdf8
+border-radius=5
+
 [urgency=low]
-background-color=#444444
+background-color=#45bb45
+text-color=#000000
 
 [urgency=high]
 background-color=#B34534

@@ -26,5 +26,5 @@ then
 fi
 swaymsg input "type:keyboard" xkb_layout ${Preferences[$current]}
 echo ${Preferences[$current]} > present_keyboard_layout
-
+pkill -RTMIN+1 waybar
 notify-send "Keyboard layout set to ${Preferences[$current]}"

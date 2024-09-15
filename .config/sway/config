@@ -20,15 +20,24 @@ set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+# set $menu dmenu_path | dmenu -m 0 -b | xargs swaymsg exec --
+  set $menu ~/.local/bin/kickoff
+
+
+exec_always "systemctl --user import-environment"
 
 include /etc/sway/config-vars.d/*
+
+### Powermanagement
+# 
+set $mod+Control_l+l systemctl suspend
+
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg /home/spappalardo@inl34.ec-lyon.fr/Pictures/background.jpg fill
+# output * bg /home/spappalardo@inl34.ec-lyon.fr/Pictures/background.jpg fill
 #
 # Example configuration:
 #
@@ -37,22 +46,28 @@ output * bg /home/spappalardo@inl34.ec-lyon.fr/Pictures/background.jpg fill
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 # office dock screen
-output DP-7 pos 0 -1200 res 1920x1200
+# output DP-7 pos -170 -1411 res 1920x1200 scale 0.85
+# To obtain the numbers (-170, -1411) the reasoning is the following:
+#      The main display has a w=1920 and a h=1080. Since we scale the external monitor
+#      by a factor of 0.85, it means that it will be 1/0.85 bigger, giving us the new
+#      W = 1920 * (1/0.85) = 2258 and H = 1200 * (1.85) = 1411. Now, the vertical offset
+#      is done (we have the external monitor directly on above the integrated one).
+#      For the horizontal offset we want the two monitor aligned. So, some part of the
+#      external monitor will "overflow" on the integrated one, and it will overflow
+#      of exactly W - w = 338. Since we want them aligned in the center, this means 
+#      that we will have (W-w)/2 pixel offset, giving us 169.411... ~ 170.
+#      NEVERTHELESS, fractional scaling results in blurry shit.
+# output DP-7 pos 0 -1200 res 1920x1200 scale 1
+output 'Samsung Electric Company SyncMaster HMBB405425' pos 0 0 res 1920x1200 scale 1
 # integrated display
-output eDP-1 pos 0 0 res 1920x1080
+output eDP-1 pos 0 1200 res 1920x1080
 # direct hdmi home screen
-output HDMI-A-1 pos -1920 0 res 1920x1080
+output HDMI-A-1 pos -1920 1200 res 1920x1080
 
 #output eDP-1 mode 1920x1080@60.020000Hz pos 0 1200 scale 1
 #output DP-6 mode 1920x1200@59.950001Hz pos 0 0 scale 1
 #output DP-7 mode 1920x1200@59.950001Hz pos 0 0 scale 1
 
-### Mouse and keyboard (input) configuration
-input 1739:52744:SYNA30BD:00_06CB:CE08 natural_scroll enabled
-input 1739:52744:SYNA30BD:00_06CB:CE08 tap enabled
-input 1739:52744:SYNA30BD:00_06CB:CE08 tap_button_map lrm
-input 1739:52744:SYNA30BD:00_06CB:CE08 pointer_accel 0.56
-input 1739:52744:SYNA30BD:00_06CB:CE08 accel_profile adaptive
 
 ### Idle configuration
 #
@@ -77,6 +92,20 @@ input 1739:52744:SYNA30BD:00_06CB:CE08 accel_profile adaptive
 #       natural_scroll enabled
 #       middle_emulation enabled
 #   }
+#   
+### Mouse and keyboard (input) configuration
+    input 1739:52744:SYNA30BD:00_06CB:CE08 {
+     natural_scroll enabled
+     tap enabled
+     tap_button_map lrm
+     pointer_accel 0.56
+     accel_profile adaptive
+    }
+
+    input type:keyboard {
+      xkb_layout us,fr,it
+      xkb_options grp:win_space_toggle,eurosign:e 
+    }
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -87,7 +116,7 @@ input 1739:52744:SYNA30BD:00_06CB:CE08 accel_profile adaptive
 #
 
     # Keyboard layout
-    bindsym $mod+Space exec $HOME/.config/sway/scripts/keyboard_layout.sh
+    # bindsym $mod+Space exec $HOME/.config/sway/scripts/keyboard_layout.sh
 
     # Start a terminal
     bindsym $mod+Return exec $term
@@ -106,10 +135,24 @@ input 1739:52744:SYNA30BD:00_06CB:CE08 accel_profile adaptive
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+c exec killall waybar; reload
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+# 
+# Media keys:
+#
+    # bindsym XF86Display
+    bindsym XF86MonBrightnessDown exec "python ~/.config/sway/scripts/brightness.py minus"
+    bindsym XF86MonBrightnessUp exec "python ~/.config/sway/scripts/brightness.py plus"
+    bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    # bindsym XF86AudioMicMute
+    # bindsym XF86RFKill
+    bindsym Print exec grimshot --notify copy area
+    bindsym Control_L+Print exec grimshot --notify save area
 #
 # Moving around:
 #
@@ -161,14 +204,18 @@ input 1739:52744:SYNA30BD:00_06CB:CE08 accel_profile adaptive
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+    
+    # bindgesture swipe:left workspace next
+    # bindgesture swipe:right workspace prev
+
 #
 # Layout stuff:
 #
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+    bindsym $mod+b splitv
+    bindsym $mod+v splith
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
