@@ -209,9 +209,8 @@ window#waybar {
 
 #custom-powerbar {
   background-color: @base; 
-  margin-right: 10px;
-  border-radius: 0 10px 10px 0;
-  margin-right: 10px;
+  /* border-radius: 0 10px 10px 0; */
+  /* margin-right: 10px; */
   color: #d8dee9;
 }
 
@@ -280,8 +279,9 @@ window#waybar {
 }
 
 #pulseaudio.muted {
-    color: #3b4252;
+    /* color: #3b4252; */
     /* border-bottom: 2px solid #3b4252; */
+    color : #bf616a;
 }
 
 #temperature {

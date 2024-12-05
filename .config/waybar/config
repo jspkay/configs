@@ -24,8 +24,8 @@
     "custom/keyboard-layout",
     "temperature",
     "memory",
-    // "battery",
     "custom/powerbar",
+    "battery",
     "network",
     "custom/power"
   ],

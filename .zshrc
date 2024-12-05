@@ -1,3 +1,7 @@
+# misc
+export TERM=xterm-256color
+
+#
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -103,8 +107,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~> %{$reset_color%} $vcs_info_msg_0_"
+PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ "$'\n'" >%{$reset_color%} $vcs_info_msg_0_"
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.local/kitty.app/bin/"
 
 # zsh related
 source $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -123,6 +128,7 @@ alias ls='ls --color=auto -oh'
 export GEM_HOME="$HOME/.gems" # ruby gems 1
 export PATH="$PATH:$HOME/.gems/bin" # ruby gems 2
 export PATH="$PATH:/usr/local/go/bin"
+export EDITOR=nvim
 
 
 
@@ -139,4 +145,16 @@ else
     fi
 fi
 unset __conda_setup
+
+if [ -f "/home/spappalardo@inl34.ec-lyon.fr/miniforge3/etc/profile.d/mamba.sh" ]; then
+    . "/home/spappalardo@inl34.ec-lyon.fr/miniforge3/etc/profile.d/mamba.sh"
+fi
 # <<< conda initialize <<<
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/spappalardo@inl34.ec-lyon.fr/google-cloud-sdk/path.zsh.inc' ]; then . '/home/spappalardo@inl34.ec-lyon.fr/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/spappalardo@inl34.ec-lyon.fr/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/spappalardo@inl34.ec-lyon.fr/google-cloud-sdk/completion.zsh.inc'; fi
+
+export GIO_MODULE_DIR=/usr/lib/x86_64-linux-gnu/gio/modules/ # This is for flatpak to work

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 swaymsg -m -t subscribe "['input']" | jq --unbuffered -r ".input.xkb_active_layout_name" | (
-  prev_layout=""
+  prev_layout="null"
   while read new_layout; do
-    # echo $prev_layout $new_layout
-    if [ "$new_layout" != "$prev_layout" ]; then
+    echo $prev_layout - $new_layout
+    if [ "$new_layout" = "null" ] || [ "$new_layout" != "$prev_layout" ]; then
       notify-send "${new_layout}" "Keyboard layout changed to $new_layout"
       pkill -RTMIN+1 waybar
       prev_layout=$new_layout
