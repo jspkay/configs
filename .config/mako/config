@@ -8,6 +8,8 @@ border-size=2
 border-color=#b7bdf8
 border-radius=5
 
+layer=overlay
+
 [urgency=low]
 background-color=#45bb45
 text-color=#000000
