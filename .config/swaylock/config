@@ -1,0 +1,25 @@
+image=$HOME/Pictures/wallpapers/background.jpg
+show-failed-attempts
+scaling=center
+color=000000
+indicator-radius=100
+indicator-thickness=20
+
+
+# normal mode
+text-color=f7e1c1
+key-hl-color=c6a0f6
+ring-color=5B4686
+
+# backspace color
+bs-hl-color=F15F5F
+
+# inside-clear-color=f7e1c1 
+# text-clear-color=f7e1c1
+ring-clear-color=EAB05C
+inside-clear-color=f7e1c188
+
+# wrong mode
+inside-wrong-color=F15F5F
+ring-wrong-color=E11414
+
