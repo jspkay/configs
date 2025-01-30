@@ -8,20 +8,20 @@
 #
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
+set $alt Mod1
 # Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-#set $term foot
-# set $term kitty
-set $term foot
+set $term ~/.local/kitty.app/bin/kitty
+# set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 # set $menu dmenu_path | dmenu -m 0 -b | xargs swaymsg exec --
-  set $menu ~/.local/bin/kickoff
+set $menu ~/.local/bin/kickoff --from-file $HOME/.config/kickoff/additional --from-path
 
 
 exec_always "systemctl --user import-environment"
@@ -70,7 +70,7 @@ output "Dell Inc. DELL P2317H HH77Y77JCKPB" pos 0 0 res 1920x1080
 # output DP-5 pos -1920 1200 res 1920x1080
 
 # physical hdmi. First is extended. Second is in conjunction
-output HDMI-A-1 pos -1920 1200 res 1920x1080
+output HDMI-A-1 pos 1920 120 res 1920x1080
 # output HDMI-A-1 pos 0 1200 res 1920x1080
 
 #output eDP-1 mode 1920x1080@60.020000Hz pos 0 1200 scale 1
@@ -89,7 +89,18 @@ output HDMI-A-1 pos -1920 1200 res 1920x1080
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+#  resumed. It will also lock your screen before your computer goes to sleep.
+
+
+set $lock $HOME/.config/swaylock/swaylock-random-image.sh
+bindsym $mod+Shift+s exec systemctl suspend
+# bindsym Control+space exec $lock
+bindsym $alt+space exec $lock
+exec swayidle -w \
+    timeout 300 '$lock -f' \
+    timeout 600 'swaymsg "output * dpms off"' \
+      resume 'swaymsg "output * dpms on"' \
+    before-sleep '$lock -f'
 
 ### Input configuration
 #
@@ -112,7 +123,7 @@ output HDMI-A-1 pos -1920 1200 res 1920x1080
     }
 
     input type:keyboard {
-      xkb_layout it,us,fr
+      xkb_layout it,us,fr,apl
       xkb_options grp:win_space_toggle,eurosign:e 
     }
 #
@@ -129,6 +140,10 @@ output HDMI-A-1 pos -1920 1200 res 1920x1080
 
     # Start a terminal
     bindsym $mod+Return exec $term
+
+    # Other application start bindings 
+    bindsym $mod+n exec firefox 
+    bindsym $mod+s exec flatpak run org.zotero.Zotero
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -149,6 +164,11 @@ output HDMI-A-1 pos -1920 1200 res 1920x1080
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
+#
+# Power keys 
+#
+    bindsym XF86PowerOff exec nwg-bar
+
 # 
 # Media keys:
 #
@@ -158,6 +178,9 @@ output HDMI-A-1 pos -1920 1200 res 1920x1080
     bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
     bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
     bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    # bindsym XF86AudioMute exec "python ~/.config/sway/scripts/audio.py toggleMute"
+    #bindsym XF86AudioLowerVolume exec "python ~/.config/sway/scripts/audio.py minus"
+    # bindsym XF86AudioRaiseVolume exec "python ~/.config/sway/scripts/audio.py plus"
     # bindsym XF86AudioMicMute
     # bindsym XF86RFKill
     bindsym Print exec grimshot --notify copy area
@@ -252,11 +275,11 @@ output HDMI-A-1 pos -1920 1200 res 1920x1080
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    bindsym $mod+minus move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+    bindsym $mod+Shift+minus scratchpad show
 #
 # Resizing containers:
 #
