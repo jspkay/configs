@@ -109,7 +109,7 @@ source $ZSH/oh-my-zsh.sh
 
 PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ "$'\n'" >%{$reset_color%} $vcs_info_msg_0_"
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/.local/kitty.app/bin/"
+export PATH="$HOME/.local/kitty.app/bin/:$PATH"
 
 # zsh related
 source $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -158,3 +158,17 @@ if [ -f '/home/spappalardo@inl34.ec-lyon.fr/google-cloud-sdk/path.zsh.inc' ]; th
 if [ -f '/home/spappalardo@inl34.ec-lyon.fr/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/spappalardo@inl34.ec-lyon.fr/google-cloud-sdk/completion.zsh.inc'; fi
 
 export GIO_MODULE_DIR=/usr/lib/x86_64-linux-gnu/gio/modules/ # This is for flatpak to work
+
+# Avoid to accidentally remove important stuff... -.-
+alias rm=rmtrash
+alias rmdir=rmdirtrash
+
+# alias for emacs on terminal 
+alias emacs=emacs -nw
+
+export XDG_CONFIG_HOME=$HOME/.config
+alias swaylock=$XDG_CONFIG_HOME/swaylock/swaylock-random-image.sh
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

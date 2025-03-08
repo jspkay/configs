@@ -1,9 +1,9 @@
 image=$HOME/Pictures/wallpapers/background.jpg
 show-failed-attempts
-scaling=center
-color=000000
-indicator-radius=100
-indicator-thickness=20
+scaling=stretch
+# color=000000
+indicator-radius=75
+indicator-thickness=15
 
 
 # normal mode
