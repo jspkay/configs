@@ -1,4 +1,6 @@
 [any]
 path = "~/Pictures/wallpapers"
 duration = "60m"
+mode = "center"
+offset = 0.5
 

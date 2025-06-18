@@ -9,7 +9,7 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 set $alt Mod1
-# Home row direction keys, like vim
+# Home row dimection keys, like vim
 set $left h
 set $down j
 set $up k
@@ -21,8 +21,10 @@ set $term ~/.local/kitty.app/bin/kitty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 # set $menu dmenu_path | dmenu -m 0 -b | xargs swaymsg exec --
-set $menu ~/.local/bin/kickoff --from-file $HOME/.config/kickoff/additional --from-path
+# set $menu ~/.local/bin/kickoff --from-file $HOME/.config/kickoff/additional --from-path
+set $menu bemenu-run -l 20
 
+set $HOME /home/spappalardo@inl34.ec-lyon.fr/
 
 exec_always "systemctl --user import-environment"
 
@@ -58,25 +60,46 @@ set $mod+Control_l+l systemctl suspend
 #      that we will have (W-w)/2 pixel offset, giving us 169.411... ~ 170.
 #      NEVERTHELESS, fractional scaling results in blurry shit.
 # integrated display
-output eDP-1 pos 1920 1200 res 1920x1080
+output eDP-1 pos 1920 1400 res 1920x1080
 # output DP-7 pos 0 -1200 res 1920x1200 scale 1
-output 'Samsung Electric Company SyncMaster HMBB405425' pos 1920 0 res 1920x1200 scale 1
-# direct hdmi home screen
-output DP-2 pos 0 1200 res 1920x1080
-output DP-1 pos 0 1200 res 1920x1080
 
-# Third screen
-output "Dell Inc. DELL P2317H HH77Y77JCKPB" pos 0 0 res 1920x1080 
-# output DP-5 pos -1920 1200 res 1920x1080
+# disosiziOne nuova 
+# output 'Samsung Electric Company SyncMaster HMBB405425' pos -1200 1080 res 1920x1200 scale 1 transform "270"
+# output "Dell Inc. DELL P2317H HH77Y77JCKPB" pos 0 1400 res 1920x1080
 
-# physical hdmi. First is extended. Second is in conjunction
-output HDMI-A-1 pos 1920 120 res 1920x1080
-# output HDMI-A-1 pos 0 1200 res 1920x1080
+# disosiziOne vecchia 
+# Third screen horizontal
+# output "Dell Inc. DELL P2317H HH77Y77JCKPB" pos 0 0 res 1920x1080 
+# Third output vertical
+output 'Samsung Electric Company SyncMaster HMBB405425' pos 720 0 res 1920x1200 scale 1 transform "270"
+output "Dell Inc. DELL P2317H HH77Y77JCKPB" pos 1920 320 res 1920x1080
+
+
 
 #output eDP-1 mode 1920x1080@60.020000Hz pos 0 1200 scale 1
 #output DP-6 mode 1920x1200@59.950001Hz pos 0 0 scale 1
 #output DP-7 mode 1920x1200@59.950001Hz pos 0 0 scale 1
 
+
+##### Ultimate screen configuration
+# integrated display. put very far for any problem
+output eDP-1 pos 10000 10000 res 1920x1080
+
+## WORK DISPLAYS
+# dell display is 1920 pixel on the right and 550 pixel up
+# output "Dell Inc. DELL P2317H HH77Y77JCKPB" pos 8080 9450 res 1920x1080 -- this is when the screen is up
+# This is when the two screen are aligned
+output "Dell Inc. DELL P2317H HH77Y77JCKPB" pos 8080 10000 res 1920x1080 
+# The Samsung display is 1200 pixel on the left and 320 pixel up 
+output 'Samsung Electric Company SyncMaster HMBB405425' pos 6880 9450 res 1920x1200 scale 1 transform "270"
+
+## HOME DISPLAYS
+# direct hdmi home screen
+output DP-2 pos 11920 10000 res 1920x1080
+output DP-1 pos 11920 10000 res 1920x1080
+
+## EXTRA (DIRECT) HDMI (for presentations and movies) - top of integrated
+output HDMI-A-1 pos 10000 8920 res 1920x1080
 
 ### Idle configuration
 #
@@ -123,9 +146,11 @@ exec swayidle -w \
      pointer_accel 0.56
      accel_profile adaptive
     }
-
+    input 1133:49291:Logitech_G502_HERO_Gaming_Mouse {
+      scroll_factor 1
+    }
     input type:keyboard {
-      xkb_layout it,us,fr,us(dvorak)
+      xkb_layout it,us,fr
       xkb_options grp:win_space_toggle,eurosign:e 
     }
 #
@@ -134,7 +159,7 @@ exec swayidle -w \
 
 ### Key bindings
 #
-# Basics:
+# Basics
 #
 
     # Keyboard layout
@@ -142,9 +167,10 @@ exec swayidle -w \
 
     # Start a terminal
     bindsym $mod+Return exec $term
+    # bindsym $alt+Control+t exec $term
 
     # Other application start bindings 
-    bindsym $mod+n exec firefox 
+    bindsym $mod+t exec $HOME/.local/zen/zen
     bindsym $mod+s exec flatpak run org.zotero.Zotero 
     # Originally $mod+s is for stacking. I never use it...
 
@@ -187,16 +213,22 @@ exec swayidle -w \
     # bindsym XF86Display
     bindsym XF86MonBrightnessDown exec "python ~/.config/sway/scripts/brightness.py minus"
     bindsym XF86MonBrightnessUp exec "python ~/.config/sway/scripts/brightness.py plus"
-    bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-    bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-    # bindsym XF86AudioMute exec "python ~/.config/sway/scripts/audio.py toggleMute"
-    #bindsym XF86AudioLowerVolume exec "python ~/.config/sway/scripts/audio.py minus"
-    # bindsym XF86AudioRaiseVolume exec "python ~/.config/sway/scripts/audio.py plus"
+    # bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+    # bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+    # bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    bindsym XF86AudioMute exec "python ~/.config/sway/scripts/audio.py toggleMute 2>&1 > /tmp/audio_prova"
+    bindsym XF86AudioLowerVolume exec "python ~/.config/sway/scripts/audio.py minus"
+    bindsym XF86AudioRaiseVolume exec "python ~/.config/sway/scripts/audio.py plus"
     # bindsym XF86AudioMicMute
     # bindsym XF86RFKill
     bindsym Print exec grimshot --notify copy area
     bindsym Control+Print exec grimshot --notify save area
+
+    bindsym XF86AudioPlay exec playerctl play-pause
+    bindsym XF86AudioNext exec playerctl next
+    bindsym XF86AudioPrev exec playerctl previous
+
+
 #
 # Moving around:
 #
@@ -206,6 +238,8 @@ exec swayidle -w \
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
 
+    # focus to the next monitor 
+    bindsym $mod+o focus output right
 
     # Move the focused window with the same, but add Shift (with hjkl)
     bindsym $mod+Shift+$left move left
@@ -230,27 +264,27 @@ exec swayidle -w \
     bindsym $mod+Shift+Right move workspace to output right
     
     # Switch to workspace
-    bindsym $mod+1 workspace number 1
-    bindsym $mod+2 workspace number 2
-    bindsym $mod+3 workspace number 3
-    bindsym $mod+4 workspace number 4
-    bindsym $mod+5 workspace number 5
-    bindsym $mod+6 workspace number 6
-    bindsym $mod+7 workspace number 7
-    bindsym $mod+8 workspace number 8
-    bindsym $mod+9 workspace number 9
-    bindsym $mod+0 workspace number 10
+    # bindsym $mod+1 workspace number 1
+    # bindsym $mod+2 workspace number 2
+    # bindsym $mod+3 workspace number 3
+    # bindsym $mod+4 workspace number 4
+    # bindsym $mod+5 workspace number 5
+    # bindsym $mod+6 workspace number 6
+    # bindsym $mod+7 workspace number 7
+    # bindsym $mod+8 workspace number 8
+    # bindsym $mod+9 workspace number 9
+    # bindsym $mod+0 workspace number 10
     # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace number 1
-    bindsym $mod+Shift+2 move container to workspace number 2
-    bindsym $mod+Shift+3 move container to workspace number 3
-    bindsym $mod+Shift+4 move container to workspace number 4
-    bindsym $mod+Shift+5 move container to workspace number 5
-    bindsym $mod+Shift+6 move container to workspace number 6
-    bindsym $mod+Shift+7 move container to workspace number 7
-    bindsym $mod+Shift+8 move container to workspace number 8
-    bindsym $mod+Shift+9 move container to workspace number 9
-    bindsym $mod+Shift+0 move container to workspace number 10
+    # bindsym $mod+Shift+1 move container to workspace number 1
+    # bindsym $mod+Shift+2 move container to workspace number 2
+    # bindsym $mod+Shift+3 move container to workspace number 3
+    # bindsym $mod+Shift+4 move container to workspace number 4
+    # bindsym $mod+Shift+5 move container to workspace number 5
+    # bindsym $mod+Shift+6 move container to workspace number 6
+    # bindsym $mod+Shift+7 move container to workspace number 7
+    # bindsym $mod+Shift+8 move container to workspace number 8
+    # bindsym $mod+Shift+9 move container to workspace number 9
+    # bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
     
@@ -319,5 +353,9 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
+# Rename first workspace, just in case...
+# exec swaymsg rename workspace to "11"
+# focus output "eDP-1"
 
 include config.d/*.conf

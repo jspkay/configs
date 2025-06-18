@@ -1,1 +1,4 @@
 zotero = flatpak run org.zotero.Zotero
+scribus = $HOME/.local/bin/scribus
+inkscape14 = flatpak run org.inkscape.Inskcape 2>&1 > /tmp/kickoff
+okular = flatpak run org.kde.okular 2>&1 > /tmp/kickoff

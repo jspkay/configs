@@ -12,7 +12,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="kardan"
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -74,9 +75,15 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+  git
+  vi-mode
+)
 
 source $ZSH/oh-my-zsh.sh
+
+# Theme
+export PROMPT="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ "$'\n'" >%{$reset_color%} $vcs_info_msg_0_" 
 
 # User configuration
 
@@ -107,7 +114,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ "$'\n'" >%{$reset_color%} $vcs_info_msg_0_"
+# PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ "$'\n'" >%{$reset_color%} $vcs_info_msg_0_"
+
+
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$HOME/.local/kitty.app/bin/:$PATH"
 
@@ -120,6 +129,9 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 bindkey "^[[1;5D" backward-word # jump word with CTRL+LEFT and RIGHT
 bindkey "^[[1;5C" forward-word
 
+# firefox (zen) on wayland 
+export MOZ_ENABLE_WAYLAND=1
+
 # commands
 alias ls='ls --color=auto -oh'
 
@@ -130,7 +142,8 @@ export PATH="$PATH:$HOME/.gems/bin" # ruby gems 2
 export PATH="$PATH:/usr/local/go/bin"
 export EDITOR=nvim
 
-
+# bemenu config variable
+. $HOME/.config/bemenu/config.sh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -162,6 +175,9 @@ export GIO_MODULE_DIR=/usr/lib/x86_64-linux-gnu/gio/modules/ # This is for flatp
 # Avoid to accidentally remove important stuff... -.-
 alias rm=rmtrash
 alias rmdir=rmdirtrash
+
+eval "$(zoxide init zsh)" # zoxide: it provides z and zi
+source <(fzf --zsh) # fzf shell integration (ctrl+r, ctrl+c, ctrl+t)
 
 # alias for emacs on terminal 
 alias emacs=emacs -nw

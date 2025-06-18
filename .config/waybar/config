@@ -5,9 +5,9 @@
   "margin": "0 0 0 0",
   // Choose the order of the modules idle_inhibitor
   "modules-left": [
-    "custom/launcher",
+    // "custom/launcher",
     "sway/workspaces",
-    "custom/swap",
+    // "custom/swap",
     "tray",
     "sway/mode",
     "custom/cava-internal",
@@ -34,10 +34,9 @@
 
   "sway/workspaces": {
     "disable-scroll": false,
-    "all-outputs": true,
+    "all-outputs": false,
     "format": "{icon}",
-    // "format": "< %g >",
-    // "format_focused" : "< %g ● >",
+    // "format": "{index} {name}",
     // "format-icons": {
     //   "1": "",
     //   "2": "",
@@ -130,7 +129,9 @@
   },
   "tray": {
     "icon-size": 14,
-    "spacing": 5
+    "spacing": 5,
+    "show-passive-items": true,
+
   },
   "clock": {
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
@@ -210,11 +211,9 @@
     // "device": "acpi_video1",
     "format": "{icon} {percent: >3}%",
     "format-icons": ["", ""],
-    "on-scroll-down": "swaynag -m ciao; python ~/.config/scripts/brightness.py down",
-    // "on-scroll-down": "brightnessctl -c backlight set 5%-",
-    "on-scroll-down": "light -A 5 && light -G | cut -d'.' -f1 > $SWAYSOCK.wob",
-    // "on-scroll-up": "brightnessctl -c backlight set +5%"
-    "on-scroll-up": "light -U 5 && light -G | cut -d'.' -f1 > $SWAYSOCK.wob"
+    "on-scroll-down": "$HOME/.config/sway/scripts/brightness.py minus",
+    "on-scroll-up": "$HOME/.config/sway/scripts/brightness.py plus",
+    // "on-scroll-up": "light -U 5 && light -G | cut -d'.' -f1 > $SWAYSOCK.wob"
   },
   "battery": {
     "states": {
@@ -234,6 +233,19 @@
         // "exec": "$HOME/.config/waybar/powerbar -full 'FULL - {usage}W' -charging '{state} {capacity}% - {usage}W - {H}h {M}m' -waybar 2> /dev/null",
         "exec": "$HOME/.config/waybar/powerbar -full 'FULL - {usage}W' -charging '{state} {capacity}% - {usage}W' -discharging '{capacity}% - {usage}W' -waybar 2> /dev/null"
     },
+    "network": {
+	"interface": "wlp2s0",
+	"format": "{ifname}",
+	"format-wifi": "{essid} ({signalStrength}%) ",
+	"format-ethernet": "{ifname} ",
+	"format-disconnected": "", //An empty format will hide the module.
+	"format-disconnected": "",
+	"tooltip-format": "{ifname}",
+	"tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+	"tooltip-format-ethernet": "{ifname} ",
+	"tooltip-format-disconnected": "Disconnected",
+	"max-length": 50
+},
   "network": {
     // "interface": "wlp2s0", // (Optional) To force the use of this interface
     "format": "⚠  Disabled",
@@ -258,16 +270,18 @@
       "car": "",
       "default": ["", ""]
     },
-    "on-click": "pavucontrol",
-    "on-scroll-up": "pamixer -ui 2 && pamixer --get-volume > $SWAYSOCK.wob",
-    "on-scroll-down": "pamixer -ud 2 && pamixer --get-volume > $SWAYSOCK.wob"
+    "on-click": "$HOME/.local/scripts/audioselector.sh",
+    "on-scroll-up": "$HOME/.config/sway/scripts/audio.py plus",
+    "on-scroll-down": "$HOME/.config/sway/scripts/audio.py minus",
+    "on-click-middle": "$HOME/.config/sway/scripts/audio.py toggleMute",
+    "on-click-right": "$HOME/.config/sway/scripts/audio.py toggleMute",
   },
   "custom/pacman": {
     "format": " {}",
     "interval": 7200, // every two hours
     "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'", // # of updates and tooltip details
     "exec-if": "exit 0", // always run; consider advanced run conditions
-    "on-click": "alacritty -e sudo pacman -Syu", // update system
+    // "on-click": "alacritty -e sudo pacman -Syu", // update system
     "signal": 8
   },
   "custom/power": {

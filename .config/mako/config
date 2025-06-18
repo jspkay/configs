@@ -1,14 +1,25 @@
-max-visible=5
+max-visible=3
 anchor=top-right
 default-timeout=5000
 
-background-color=#24273a
-text-color=#cad3f5
-border-size=2
-border-color=#b7bdf8
+font=DejaVu Sans Mono 12
+background-color=#001B2E
+text-color=#4DACFF
+border-size=5
 border-radius=5
+border-color=#4DACFF
+# background-color=#24273a
+# text-color=#cad3f5
+# border-color=#b7bdf8
 
 layer=overlay
+height=500
+width=400
+format=<b>%s</b>\n%b 
+# format=<b>%s</b>\n<i>%a</i>\n%b 
+
+padding=10
+icons=1
 
 [urgency=low]
 background-color=#45bb45
