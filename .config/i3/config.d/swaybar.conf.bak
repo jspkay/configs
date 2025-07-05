@@ -1,0 +1,18 @@
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    #status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+    status_command while [ 0 ]; do echo "$(cat $HOME/present_keyboard_layout) \| $(date +'%Y-%m-%d %l:%M:%S %p')";sleep 1; done
+
+    colors {
+        statusline #ffffff
+        background #323232CC
+        inactive_workspace #323232CC #323232CC #b0b0b0FF
+    }
+}

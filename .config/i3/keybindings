@@ -1,0 +1,10 @@
+
+    # Start a terminal
+    bindsym $mod+Return exec $term
+    # bindsym $alt+Control+t exec $term
+
+    # Other application start bindings 
+    bindsym $mod+t exec $HOME/.local/zen/zen
+    bindsym $mod+s exec flatpak run org.zotero.Zotero 
+    # Originally $mod+s is for stacking. I never use it...
+

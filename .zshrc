@@ -182,6 +182,7 @@ source <(fzf --zsh) # fzf shell integration (ctrl+r, ctrl+c, ctrl+t)
 # alias for emacs on terminal 
 alias emacs=emacs -nw
 
+export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CONFIG_HOME=$HOME/.config
 alias swaylock=$XDG_CONFIG_HOME/swaylock/swaylock-random-image.sh
 

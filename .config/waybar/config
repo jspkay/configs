@@ -1,22 +1,27 @@
 {
   "layer": "top", // Waybar at top layer
   "position": "top", // Waybar position (top|bottom|left|right)
-  "height": 10,
+  "height": 12,
   "margin": "0 0 0 0",
   // Choose the order of the modules idle_inhibitor
   "modules-left": [
     // "custom/launcher",
     "sway/workspaces",
     // "custom/swap",
-    "tray",
     "sway/mode",
     "custom/cava-internal",
-    "mpd#2",
-    "mpd#3",
-    "mpd#4",
-    "mpd"
+    // "mpd#2",
+    // "mpd#3",
+    // "mpd#4",
+    //"mpd",
+    "custom/ScrollMPRIS",
+    "tray"
   ],
-  "modules-center": ["clock"],
+  "modules-center": [
+    "custom/clock",
+    "clock"
+    // "custom/ciao",
+  ],
   "modules-right": [
     // "custom/DND",
     "backlight",
@@ -24,13 +29,26 @@
     "custom/keyboard-layout",
     "temperature",
     "memory",
-    "custom/powerbar",
+    // "custom/powerbar",
     "battery",
     "network",
     "custom/power"
   ],
 
   // Modules configuration
+
+  "custom/ciao": {
+    "exec": "$HOME/tmp/prova_waybar.sh",
+    "return-type": "json",
+    "max-length": 5,
+    "interval": 3
+  },
+  "custom/ScrollMPRIS": {
+    "return-type": "json",
+    "exec": "$HOME/builds/ScrollMPRIS/target/release/ScrollMPRIS -w 20 -d 1500",
+    "escape": true,
+    "on-click": "playerctl play-pause"
+  },
 
   "sway/workspaces": {
     "disable-scroll": false,
@@ -128,7 +146,7 @@
     }
   },
   "tray": {
-    "icon-size": 14,
+    "icon-size": 20,
     "spacing": 5,
     "show-passive-items": true,
 
@@ -299,6 +317,10 @@
     "signal": 1, // SIGHUP
     "tooltip": false,
     "on-click": "~/.config/waybar/scripts/keyhint.sh"
+  },
+  "custom/clock": {
+    "exec": "$HOME/.config/sway/scripts/clock.sh",
+    "interval": 1
   },
   "custom/launcher": {
     "format": " ",
