@@ -117,7 +117,7 @@ export PROMPT="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ 
 # PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ "$'\n'" >%{$reset_color%} $vcs_info_msg_0_"
 
 
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/kitty.app/bin/:$PATH"
 
 # zsh related
