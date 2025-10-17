@@ -18,6 +18,7 @@ print("pactl working (stderr): ", pactlP.stderr)
 
 print(sys.argv)
 MAX = 130
+FTH = 10 # FINE THRESHOLD: beyond this point, the volume has finer control
 current = os.popen(f"{pactl} get-sink-volume @DEFAULT_SINK@").read()
 current = current.split("/ ")[1].split("/")[0].replace("%", "")
 current = int(current)
@@ -31,6 +32,8 @@ print(sys.argv[1])
 if sys.argv[1] == "plus":
     if current >= MAX:
         os.system(f"{pactl} set-sink-volume @DEFAULT_SINK@ {MAX}%")
+    if current < FTH:
+        os.system(f"{pactl} set-sink-volume @DEFAULT_SINK@ +1%")
     else:
         os.system(f"{pactl} set-sink-volume @DEFAULT_SINK@ +5%")
     
@@ -38,7 +41,10 @@ if sys.argv[1] == "plus":
         os.system(f"{pactl} set-sink-mute @DEFAULT_SINK@ no")
 
 elif sys.argv[1] == "minus":
-    os.system(f"{pactl} set-sink-volume @DEFAULT_SINK@ -5%")
+    if current <= FTH+1:
+        os.system(f"{pactl} set-sink-volume @DEFAULT_SINK@ -1%")
+    else:
+        os.system(f"{pactl} set-sink-volume @DEFAULT_SINK@ -5%")
 elif sys.argv[1] == "toggleMute":
     print("I'm doing it !!!!")
     os.system(f"{pactl} set-sink-mute @DEFAULT_SINK@ toggle")
