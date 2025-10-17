@@ -50,10 +50,7 @@ set $mod+Control_l+l systemctl suspend
 set $lock $HOME/.config/swaylock/swaylock-random-image.sh
 # this is basically "Infusion" - the compute locks after 5 minutes and goes to sleep after 10 minutes
 # when this process is killed, we activeted "Caffeine"
-exec swayidle -w \
-    timeout 300 '$lock -f' \
-    timeout 600 'swaymsg "output * dpms off"' \
-      resume 'swaymsg "output * dpms on"'
+exec $HOME/.config/sway/scripts/sleeptimer.sh
 # this ensures that the computer is blocked, even if "Caffeine" is active.
 exec swayidle -w before-sleep '$lock -f'
 
